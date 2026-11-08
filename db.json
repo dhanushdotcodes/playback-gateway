@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "johndoe@example.com",
+      "subscriptionPlan": "plus"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "email": "janesmith@example.com",
+      "subscriptionPlan=": "plus"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "sess_123",
+      "user_id": 1,
+      "timestamp": 1730000000,
+      "deviceId": "device_123",
+      "status": "active",
+      "song_id": "song_123",
+      "created_at": "2026-11-08T10:00:00",
+      "expires_at": "2026-11-08T11:00:00"
+    }
+  ]
+}
