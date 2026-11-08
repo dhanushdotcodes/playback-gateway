@@ -1,6 +1,7 @@
-def main():
-    print("Hello from playback-gateway!")
+from routes import router
+from fastapi import FastAPI
+
+app = FastAPI()
+app.include_router(router, prefix="/api", tags=["playback"])
 
 
-if __name__ == "__main__":
-    main()
