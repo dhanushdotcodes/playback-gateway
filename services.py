@@ -12,6 +12,11 @@ from models.session_model import Session, SessionCreate
 
 DB_PATH = Path(__file__).parent / "db.json"
 
+HEARTBEAT_TIMEOUT = 15  # seconds without a heartbeat before a session is expired
+
+# Max sessions a user can have playing at the same time, per subscription plan.
+PLAN_DEVICE_LIMIT = {"free": 1, "plus": 1, "premium": 2}
+
 # Handlers run in a threadpool; serialise read-modify-write cycles on the file.
 _lock = threading.Lock()
 
@@ -50,17 +55,52 @@ def play(user_id: int, data: SessionCreate) -> Session:
     """
     with _lock:
         db = _load()
+        now = int(time.time())
+
+        # Sessions whose client stopped heart-beating (or never connected) no longer hold a slot.
+        for s in db["sessions"]:
+            if s["status"] != "expired" and now - s.get("last_heartbeat", 0) > HEARTBEAT_TIMEOUT:
+                s["status"] = "expired"
+
+        user = next((u for u in db["users"] if u["id"] == user_id), None)
+        if user is None:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        active = [s for s in db["sessions"] if s["user_id"] == user_id and s["status"] == "active"]
+        # A device plays one thing at a time: starting a new song replaces its previous session.
+        for s in active:
+            if s["device_id"] == data.device_id:
+                s["status"] = "expired"
+        active = [s for s in active if s["status"] == "active"]
+        if len(active) >= PLAN_DEVICE_LIMIT[user["subscription_plan"]]:
+            detail = "Device limit reached" if user["subscription_plan"] == "premium" else "Upgrade your plan"
+            raise HTTPException(status_code=409, detail=detail)
+
         session = Session(
             session_id=_new_session_id(db),
             user_id=user_id,
-            timestamp=int(time.time()),
+            timestamp=now,
             device_id=data.device_id,
             status="active",
             song_id=data.song_id,
+            last_heartbeat=now,
         )
         db["sessions"].append(session.model_dump())
         _save(db)
     return session
+
+
+def heartbeat(user_id: int, session_id: int) -> Session:
+    """
+    Record a heartbeat for the session and return it (so the caller can see if it was expired).
+    """
+    with _lock:
+        db = _load()
+        session = _find(db, user_id, session_id)
+        if session["status"] != "expired":
+            session["last_heartbeat"] = int(time.time())
+            _save(db)
+    return Session(**session)
 
 
 def pause(user_id: int, session_id: int) -> Session:

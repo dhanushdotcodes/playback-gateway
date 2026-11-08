@@ -72,6 +72,31 @@ curl -s -X POST localhost:8000/api/expire \
 {"detail": "Session not found"}
 ```
 
+## Heartbeat (WebSocket)
+
+After `/play`, open `ws://127.0.0.1:8000/api/ws/<session_id>` and send any text
+message (e.g. `heartbeat`) every 5 seconds. If 15 seconds pass with no heartbeat,
+or the socket closes, the session is expired.
+
+```bash
+npx wscat -c ws://127.0.0.1:8000/api/ws/<session_id>
+```
+
+Close codes: `4000` heartbeat timeout, `4001` expired elsewhere (e.g. `/expire`),
+`4404` unknown session, `4409` session already expired.
+
+## Device limits
+
+| Plan      | Devices playing at once |
+|-----------|-------------------------|
+| free      | 1                       |
+| plus      | 1                       |
+| premium   | 2                       |
+
+Starting playback over the limit returns **409**: `"Upgrade your plan"` for
+free/plus, `"Device limit reached"` for premium. Playing again on a device that is
+already playing replaces that device's previous session. Sessions with no heartbeat for 15s stop counting.
+
 ## Endpoints
 
 | Method | Path          | Body                     | Result                         |

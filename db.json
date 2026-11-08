@@ -21,6 +21,69 @@
       "device_id": "device_123",
       "status": "expired",
       "song_id": 42
+    },
+    {
+      "session_id": 985389,
+      "user_id": 1,
+      "timestamp": 1794158436,
+      "device_id": "device_123",
+      "status": "expired",
+      "song_id": 42,
+      "last_heartbeat": 1794158436
+    },
+    {
+      "session_id": 941736,
+      "user_id": 1,
+      "timestamp": 1794158542,
+      "device_id": "device_123",
+      "status": "expired",
+      "song_id": 42,
+      "last_heartbeat": 1794158585
+    },
+    {
+      "session_id": 153927,
+      "user_id": 1,
+      "timestamp": 1794159019,
+      "device_id": "device_123",
+      "status": "expired",
+      "song_id": 42,
+      "last_heartbeat": 1794159083
+    },
+    {
+      "session_id": 693058,
+      "user_id": 1,
+      "timestamp": 1794159100,
+      "device_id": "device_1233",
+      "status": "expired",
+      "song_id": 42,
+      "last_heartbeat": 1794159100
+    },
+    {
+      "session_id": 275222,
+      "user_id": 1,
+      "timestamp": 1794159118,
+      "device_id": "device_1233",
+      "status": "expired",
+      "song_id": 42,
+      "last_heartbeat": 1794159139
+    },
+    {
+      "session_id": 753599,
+      "user_id": 2,
+      "timestamp": 1794159198,
+      "device_id": "device_13",
+      "status": "active",
+      "song_id": 42,
+      "last_heartbeat": 1794159198
+    },
+    {
+      "session_id": 113348,
+      "user_id": 2,
+      "timestamp": 1794159202,
+      "device_id": "device_123",
+      "status": "active",
+      "song_id": 42,
+      "last_heartbeat": 1794159202
     }
   ]
 }

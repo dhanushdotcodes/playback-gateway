@@ -8,6 +8,7 @@ class Session(BaseModel):
     device_id: str
     status: Literal["active", "paused", "expired"]
     song_id: int
+    last_heartbeat: int = 0
 
 class SessionCreate(BaseModel):
     device_id: str
