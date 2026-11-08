@@ -13,9 +13,5 @@ class SessionCreate(BaseModel):
     device_id: str
     song_id: int
 
-class SessionUpdate(BaseModel):
-    session_id: str
-    status: Literal["active", "paused", "expired"]
-
 class SessionRef(BaseModel):
     session_id: int

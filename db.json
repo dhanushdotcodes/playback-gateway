@@ -10,7 +10,7 @@
       "id": 2,
       "name": "Jane Smith",
       "email": "janesmith@example.com",
-      "subscription_plan=": "plus"
+      "subscription_plan": "premium"
     }
   ],
   "sessions": [
@@ -20,9 +20,7 @@
       "timestamp": 1730000000,
       "device_id": "device_123",
       "status": "active",
-      "song_id": 1,
-      "created_at": "2026-11-08T10:00:00",
-      "expires_at": "2026-11-08T11:00:00"
+      "song_id": 1
     }
   ]
 }
