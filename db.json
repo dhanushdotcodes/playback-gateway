@@ -17,10 +17,10 @@
     {
       "session_id": 1,
       "user_id": 1,
-      "timestamp": 1730000000,
+      "timestamp": 1794155548,
       "device_id": "device_123",
-      "status": "active",
-      "song_id": 1
+      "status": "expired",
+      "song_id": 42
     }
   ]
 }
